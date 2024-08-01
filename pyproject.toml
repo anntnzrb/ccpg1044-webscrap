@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "webscrap"
+version = "0.0.1"
+description = ""
+authors = ["anntnzrb <anntnzrb@proton.me>"]
+license = "GPLv3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.scripts]
+app = "webscrap.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
