@@ -2,11 +2,11 @@ import csv
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+from urllib.parse import urlparse, parse_qs
 
 
-def write_to_file(data: dict):
-    with open('./webscrap/data/computrabajo.csv', 'a', encoding='utf-8', newline='') as file:
+def write_to_file(filename: str, data: dict):
+    with open(filename, 'a', encoding='utf-8', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=data.keys(), delimiter='|')
 
         if file.tell() == 0:
@@ -75,7 +75,13 @@ def next_page(driver):
 
 
 def main():
-    base_url = 'https://ec.computrabajo.com/empleos-en-guayas'
+    state = 'guayas'
+    data_filename = f'./data/{state}.csv'
+
+    start_page = 1
+    base_url = f'https://ec.computrabajo.com/empleos-en-{state}'
+    if start_page > 1:
+        base_url += f'?p={start_page}'
 
     chrome_options = webdriver.ChromeOptions()
     # chrome_options.add_argument("--headless=new")
@@ -95,11 +101,17 @@ def main():
                 print(f'url: {driver.current_url}')
                 print(f'error: {error}')
             else:
-                write_to_file(data)
+                write_to_file(data_filename, data)
 
         # Exit if there is no next page
         try:
             next_page(driver)
+
+            parsed_url = urlparse(driver.current_url)
+            query_params = parse_qs(parsed_url.query)
+            page_number = query_params.get('p', [None])[0]
+
+            print(f'current page: {page_number}')
 
         except Exception:
             break
