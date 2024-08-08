@@ -8,4 +8,4 @@ install:
 
 # run program
 run: install
-    poetry run app
+    poetry run python ./webscrap/main.py

@@ -8,9 +8,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-
-[tool.poetry.scripts]
-app = "webscrap.main:main"
+requests = "^2.32.3"
+beautifulsoup4 = "^4.12.3"
 
 [build-system]
 requires = ["poetry-core"]
